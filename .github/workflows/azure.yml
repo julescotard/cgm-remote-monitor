@@ -28,16 +28,18 @@ jobs:
 
       - name: Pack deployment payload as tar
         run: |
+          mkdir -p /tmp/nightscout-package
           tar \
             --exclude-vcs \
             --exclude='.github' \
-            -czf site.tgz .
+            --exclude='./site.tgz' \
+            -czf /tmp/nightscout-package/site.tgz .
 
       - name: Upload packaged artifact
         uses: actions/upload-artifact@v4
         with:
           name: site-package
-          path: site.tgz
+          path: /tmp/nightscout-package/site.tgz
           archive: false
 
   deploy:
